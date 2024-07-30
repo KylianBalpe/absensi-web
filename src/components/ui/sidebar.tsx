@@ -13,18 +13,16 @@ const Sidebar = () => {
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-48 flex-col border-r bg-background sm:flex">
         <div className="flex flex-col border-b py-2">
           <h1 className="flex h-10 items-center justify-center text-xl font-bold">
-            Library
+            Absensi
           </h1>
         </div>
         <nav className="flex flex-col items-start gap-1 px-2 sm:py-4">
           {LinksItem.map((link, index) => {
             const Icon = link.icon;
-
             const isActive =
               link.path === "/dashboard" && pathname === "/dashboard"
                 ? true
                 : link.path !== "/dashboard" && pathname.startsWith(link.path);
-
             return (
               <Link
                 key={index}
