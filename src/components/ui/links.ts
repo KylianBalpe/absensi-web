@@ -1,4 +1,4 @@
-import { FishIcon, HomeIcon, TreesIcon } from "lucide-react";
+import { HomeIcon, UsersRoundIcon, ClipboardMinusIcon } from "lucide-react";
 
 const LinksItem = [
   {
@@ -7,14 +7,14 @@ const LinksItem = [
     path: "/dashboard",
   },
   {
-    label: "Fish",
-    icon: FishIcon,
-    path: "/dashboard/fish",
+    label: "Users",
+    icon: UsersRoundIcon,
+    path: "/dashboard/users",
   },
   {
-    label: "Plants",
-    icon: TreesIcon,
-    path: "/dashboard/plants",
+    label: "Presensi",
+    icon: ClipboardMinusIcon,
+    path: "/dashboard/presensi",
   },
 ];
 
