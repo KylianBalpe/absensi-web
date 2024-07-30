@@ -1,46 +1,71 @@
-import React from "react";
-
+import React, { Suspense } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import LoginForm from "@/components/auth/login-form";
+import Search from "@/components/ui/search";
+import AddFish from "@/components/fish/add-fish";
+import FishTable from "@/components/fish/fish-table";
+import { Metadata } from "next";
+import { getAllFish } from "@/lib/action/fish";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import RegisterForm from "@/components/auth/register-form";
+import { authOptions } from "@/lib/authOptions";
+import { FetchFishResponse } from "@/lib/definition/fish-type";
+import Pagination from "@/components/ui/pagination";
+import TableSkeleton from "@/components/skeleton/table-skeleton";
 
-const Page = async () => {
-  //   const session = await getServerSession();
+export const metadata: Metadata = {
+  title: "Fish",
+};
 
-  //   if (session) {
-  //     redirect("/dashboard");
-  //   }
+const Page = async ({
+  searchParams,
+}: {
+  searchParams?: {
+    page?: number;
+    search?: string;
+  };
+}) => {
+  const session = await getServerSession(authOptions);
+
+  const search = searchParams?.search || "";
+  const page = Number(searchParams?.page) || 1;
+
+  const fetchFishes: FetchFishResponse = await getAllFish({
+    accessToken: session!.user.accessToken,
+    search: search,
+  });
+
+  const totalPages = fetchFishes.data?.pagination.totalPages || 1;
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 px-4 py-8 md:gap-8 lg:py-24 xl:gap-12">
-      <div className="flex flex-col gap-2 xl:gap-4">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-2xl">Register</CardTitle>
-            <CardDescription>
-              Enter email and password to register a new account.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <RegisterForm />
-          </CardContent>
-        </Card>
-        <Button variant={"link"} asChild>
-          <Link href="/">Return to home</Link>
-        </Button>
+    <main className="grid flex-1 items-start gap-6 sm:py-0">
+      <div className="flex flex-row justify-between gap-6">
+        <Search placeholder="Search fish name..." />
+        <AddFish />
       </div>
-    </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Fish</CardTitle>
+          <CardDescription>Manage your fish data.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Suspense
+            key={search + totalPages}
+            fallback={<TableSkeleton colSpan={5} />}
+          >
+            <FishTable search={search} page={page} />
+          </Suspense>
+        </CardContent>
+        <CardFooter>
+          <Pagination totalPages={totalPages} />
+        </CardFooter>
+      </Card>
+    </main>
   );
 };
 

@@ -1,5 +1,6 @@
 import Navbar from "@/components/ui/navbar";
 import Sidebar from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 import React from "react";
 
@@ -15,6 +16,7 @@ const Layout = ({
         <Navbar />
         <div className="p-4 sm:p-6">{children}</div>
       </div>
+      <Toaster richColors />
     </div>
   );
 };
