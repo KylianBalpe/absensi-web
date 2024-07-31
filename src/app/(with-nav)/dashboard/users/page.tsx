@@ -32,7 +32,7 @@ const Page = async () => {
       <Card>
         <CardHeader>
           <CardTitle>Users</CardTitle>
-          <CardDescription>Manage your fish data.</CardDescription>
+          <CardDescription>Manage your data.</CardDescription>
         </CardHeader>
         <CardContent>
           <UsersTable response={usersData} />

@@ -11,7 +11,7 @@ import Link from "next/link";
 import DataNotFound from "@/components/DataNotFound";
 
 export const metadata: Metadata = {
-  title: "Fish Detail",
+  title: "Users Detail",
 };
 
 const Page = async ({ params }: { params: { id: string } }) => {
@@ -49,7 +49,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                   <CardTitle>{user.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 ">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <Label className="font-bold">Alamat Email</Label>
                       <p className="text-lg">{user.email}</p>

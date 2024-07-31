@@ -8,7 +8,7 @@ import { getUser } from "@/lib/action/crud";
 import DataNotFound from "@/components/DataNotFound";
 
 export const metadata: Metadata = {
-  title: "Edit Fish",
+  title: "Edit User",
 };
 
 const Page = async ({ params }: { params: { id: string } }) => {

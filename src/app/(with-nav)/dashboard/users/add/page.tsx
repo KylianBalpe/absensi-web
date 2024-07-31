@@ -1,5 +1,5 @@
 import React from "react";
-import AddFishForm from "@/components/users/add-form";
+import AddUserForm from "@/components/users/add-form";
 import { Metadata } from "next";
 import SessionProvider from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
@@ -14,7 +14,7 @@ const Page = async () => {
 
   return (
     <SessionProvider session={session}>
-      <AddFishForm />
+      <AddUserForm />
     </SessionProvider>
   );
 };
