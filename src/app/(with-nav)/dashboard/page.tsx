@@ -13,25 +13,40 @@ import { Button } from "@/components/ui/button";
 import { authOptions } from "@/lib/authOptions";
 import Link from "next/link";
 import RegisterForm from "@/components/auth/register-form";
+import { getDashboard } from "@/lib/action/crud";
 
 const Page = async () => {
+  const session = await getServerSession(authOptions);
+
+  const dashboardData = await getDashboard(session!.user.accessToken);
+
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 px-4 py-8 md:gap-8 lg:py-24 xl:gap-12">
-      <div className="flex flex-col gap-2 xl:gap-4">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-2xl">Register</CardTitle>
-            <CardDescription>
-              Enter email and password to register a new account.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <RegisterForm />
-          </CardContent>
-        </Card>
-        <Button variant={"link"} asChild>
-          <Link href="/">Return to home</Link>
-        </Button>
+    <div className="w-full">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="flex flex-col rounded-md border bg-card p-6">
+          <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2">
+            <div className="flex flex-col space-y-1.5 text-center lg:text-start">
+              <h3 className="text-2xl font-semibold leading-none tracking-tight">
+                Jumlah Dosen
+              </h3>
+            </div>
+            <p className="text-center text-5xl font-bold lg:text-end">
+              {dashboardData.data.dosen}
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col rounded-md border bg-card p-6">
+          <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2">
+            <div className="flex flex-col space-y-1.5 text-center lg:text-start">
+              <h3 className="text-2xl font-semibold leading-none tracking-tight">
+                Jumlah Presensi Hari ini
+              </h3>
+            </div>
+            <p className="text-center text-5xl font-bold lg:text-end">
+              {dashboardData.data.presensi}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

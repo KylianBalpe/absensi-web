@@ -129,3 +129,21 @@ export const getAbsensi = async () => {
     console.error(error);
   }
 };
+
+export const getDashboard = async (accessToken: string) => {
+  try {
+    const res = await fetch(`${backendURL}/dashboard`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const response = await res.json();
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
