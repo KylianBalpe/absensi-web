@@ -32,7 +32,7 @@ import {
   SelectItem,
 } from "../ui/select";
 
-const AddFishForm = () => {
+const AddUserForm = () => {
   const { data: session, status } = useSession();
 
   const router = useRouter();
@@ -311,4 +311,4 @@ const AddFishForm = () => {
   );
 };
 
-export default AddFishForm;
+export default AddUserForm;

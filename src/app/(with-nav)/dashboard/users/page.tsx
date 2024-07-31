@@ -25,7 +25,6 @@ const Page = async () => {
   });
   if (!usersData || usersData.status !== 200) return <InternalServerError />;
 
-
   return (
     <main className="grid flex-1 items-start gap-6 sm:py-0">
       <div className="flex flex-row justify-between gap-6">
@@ -35,7 +34,7 @@ const Page = async () => {
       <Card>
         <CardHeader>
           <CardTitle>Users</CardTitle>
-          <CardDescription>Manage your fish data.</CardDescription>
+          <CardDescription>Manage your data.</CardDescription>
         </CardHeader>
         <CardContent>
           <UsersTable response={usersData} />
