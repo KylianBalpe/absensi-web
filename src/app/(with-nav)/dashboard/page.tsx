@@ -1,24 +1,13 @@
 import React from "react";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { authOptions } from "@/lib/authOptions";
-import Link from "next/link";
-import RegisterForm from "@/components/auth/register-form";
 import { getDashboard } from "@/lib/action/crud";
+import InternalServerError from "@/app/500";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-
   const dashboardData = await getDashboard(session!.user.accessToken);
+  if (!dashboardData || dashboardData.status !== 200) return <InternalServerError />;
 
   return (
     <div className="w-full">

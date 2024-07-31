@@ -6,11 +6,14 @@ import { LogInIcon } from "lucide-react";
 import { authOptions } from "@/lib/authOptions";
 import { getAbsensi } from "@/lib/action/crud";
 import Clock from "@/components/Clock";
+import InternalServerError from "./500";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
   const absensiData = await getAbsensi();
-  const { dosenHadir, dosenPulang,dosenTidakHadir} = absensiData.data;
+  if (!absensiData || absensiData.status !== 200)
+    return <InternalServerError />;
+  const { dosenHadir, dosenPulang, dosenTidakHadir } = absensiData.data;
 
   return (
     <div className="flex w-full flex-col items-center justify-center py-8 lg:h-screen">
@@ -46,17 +49,23 @@ const Page = async () => {
               </h1>
               <div className="flex flex-col flex-wrap gap-2">
                 <ul className="pl-4">
-                  {dosenHadir.map((hadir: any) => {
-                    return (
-                      <li key={hadir.id} className="list-disc">
-                        <p>
-                          <span className="font-semibold">{hadir.name}</span>,
-                          {` ${String(new Date(hadir.time).getUTCHours()).padStart(2, "0")}:${String(new Date(hadir.time).getUTCMinutes()).padStart(2, "0")}:${String(new Date(hadir.time).getUTCSeconds()).padStart(2, "0")}`}{" "}
-                          WIB
-                        </p>
-                      </li>
-                    );
-                  })}
+                  {dosenHadir.length > 0 ? (
+                    dosenHadir.map((hadir: any) => {
+                      return (
+                        <li key={hadir.id} className="list-disc">
+                          <p>
+                            <span className="font-semibold">{hadir.name}</span>,
+                            {` ${String(new Date(hadir.time).getUTCHours()).padStart(2, "0")}:${String(new Date(hadir.time).getUTCMinutes()).padStart(2, "0")}:${String(new Date(hadir.time).getUTCSeconds()).padStart(2, "0")}`}{" "}
+                            WIB
+                          </p>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <li className="list-disc">
+                      <p>Belum ada dosen yang hadir hari ini</p>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -66,17 +75,24 @@ const Page = async () => {
               </h1>
               <div className="flex flex-col flex-wrap gap-2">
                 <ul className="pl-4">
-                  {dosenPulang.map((pulang: any) => {
-                    return (
-                      <li key={pulang.id} className="list-disc">
-                        <p>
-                          <span className="font-semibold">{pulang.name}</span>,
-                          {` ${String(new Date(pulang.time).getUTCHours()).padStart(2, "0")}:${String(new Date(pulang.time).getUTCMinutes()).padStart(2, "0")}:${String(new Date(pulang.time).getUTCSeconds()).padStart(2, "0")}`}{" "}
-                          WIB
-                        </p>
-                      </li>
-                    );
-                  })}
+                  {dosenPulang.length > 0 ? (
+                    dosenPulang.map((pulang: any) => {
+                      return (
+                        <li key={pulang.id} className="list-disc">
+                          <p>
+                            <span className="font-semibold">{pulang.name}</span>
+                            ,
+                            {` ${String(new Date(pulang.time).getUTCHours()).padStart(2, "0")}:${String(new Date(pulang.time).getUTCMinutes()).padStart(2, "0")}:${String(new Date(pulang.time).getUTCSeconds()).padStart(2, "0")}`}{" "}
+                            WIB
+                          </p>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <li className="list-disc">
+                      <p>Belum ada dosen yang pulang hari ini</p>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -86,13 +102,19 @@ const Page = async () => {
               </h1>
               <div className="flex flex-col flex-wrap gap-2">
                 <ul className="pl-4">
-                  {dosenTidakHadir.map((tidakHadir: any) => {
-                    return (
-                      <li key={tidakHadir.id} className="list-disc">
-                        <p>{tidakHadir.name}</p>
-                      </li>
-                    );
-                  })}
+                  {dosenTidakHadir.length > 0 ? (
+                    dosenTidakHadir.map((tidakHadir: any) => {
+                      return (
+                        <li key={tidakHadir.id} className="list-disc">
+                          <p>{tidakHadir.name}</p>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <li className="list-disc">
+                      <p>Semua dosen sudah hadir hari ini</p>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

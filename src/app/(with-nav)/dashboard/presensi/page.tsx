@@ -13,6 +13,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import Search from "@/components/ui/search";
 import TableSkeleton from "@/components/skeleton/table-skeleton";
+import InternalServerError from "@/app/500";
 
 export const metadata: Metadata = {
   title: "Presensi",
@@ -27,11 +28,11 @@ const Page = async ({
 }) => {
   const session = await getServerSession(authOptions);
   const search = searchParams?.search || "";
-
   const presensiData = await getPresensi({
     accessToken: session!.user.accessToken,
     search,
   });
+  if (!presensiData || presensiData.status !== 200)return <InternalServerError />;
 
   return (
     <main className="grid flex-1 items-start gap-6 sm:py-0">

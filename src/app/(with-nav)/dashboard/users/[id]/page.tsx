@@ -9,21 +9,22 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import Link from "next/link";
 import DataNotFound from "@/components/DataNotFound";
+import InternalServerError from "@/app/500";
 
 export const metadata: Metadata = {
-  title: "Fish Detail",
+  title: "User Detail",
 };
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
   const userId = Number(params.id);
-
   const fetchUser = await getUser({
     accessToken: session!.user.accessToken,
     id: userId,
   });
-
+  
   const response = await fetchUser?.json();
+  if (!response || response.status !== 200) return <InternalServerError />;
   const user: any = response.data?.user;
 
   return (

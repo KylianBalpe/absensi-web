@@ -12,7 +12,7 @@ import { Metadata } from "next";
 import { getUsers } from "@/lib/action/crud";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { FetchFishResponse } from "@/lib/definition/fish-type";
+import InternalServerError from "@/app/500";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -23,6 +23,8 @@ const Page = async () => {
   const usersData = await getUsers({
     accessToken: session!.user.accessToken,
   });
+  if (!usersData || usersData.status !== 200) return <InternalServerError />;
+
 
   return (
     <main className="grid flex-1 items-start gap-6 sm:py-0">
