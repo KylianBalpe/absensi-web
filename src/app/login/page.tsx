@@ -10,22 +10,20 @@ import {
 import LoginForm from "@/components/auth/login-form";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { authOptions } from "@/lib/authOptions";
 
 const Page = async ({
   searchParams,
 }: {
   searchParams: { callbackUrl: string };
 }) => {
-  //   const session = await getServerSession();
-
   const callBackUrl = searchParams?.callbackUrl || "/dashboard";
-
-  //   if (session) {
-  //     redirect("/dashboard");
-  //   }
+  const session = await getServerSession(authOptions);
+  if (session) {
+    redirect("/dashboard");
+  }
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center gap-4 px-4 py-8 md:gap-8 lg:py-24 xl:gap-12">

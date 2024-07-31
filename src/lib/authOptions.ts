@@ -17,13 +17,11 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
-
         const user = await login({
           email: credentials.email,
           password: credentials.password,
         });
-
-        if (user.code === 200) {
+        if (user.status === 200) {
           return user.data.token;
         } else {
           throw new Error(user.message);
@@ -36,12 +34,10 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token = { ...token, user };
       }
-
       return token;
     },
     async session({ session, token }) {
       session.user.accessToken = token.user as any;
-
       return session;
     },
   },

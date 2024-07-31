@@ -17,7 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RegisterFormSchema } from "@/lib/form/authentication-form";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";

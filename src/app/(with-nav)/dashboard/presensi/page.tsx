@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { Suspense } from "react";
 import {
   Card,
   CardContent,
@@ -7,40 +6,54 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import LoginForm from "@/components/auth/login-form";
+import PresensiTable from "@/components/presensi/presensi-table";
+import { Metadata } from "next";
+import { getPresensi } from "@/lib/action/crud";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import RegisterForm from "@/components/auth/register-form";
+import { authOptions } from "@/lib/authOptions";
+import { FetchFishResponse } from "@/lib/definition/fish-type";
+import Search from "@/components/ui/search";
+import TableSkeleton from "@/components/skeleton/table-skeleton";
 
-const Page = async () => {
-  //   const session = await getServerSession();
+export const metadata: Metadata = {
+  title: "Users",
+};
 
-  //   if (session) {
-  //     redirect("/dashboard");
-  //   }
+const Page = async ({
+  searchParams,
+}: {
+  searchParams?: {
+    search?: string;
+  };
+}) => {
+  const session = await getServerSession(authOptions);
+  const search = searchParams?.search || "";
+
+  const presensiData: FetchFishResponse = await getPresensi({
+    accessToken: session!.user.accessToken,
+    search,
+  });
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 px-4 py-8 md:gap-8 lg:py-24 xl:gap-12">
-      <div className="flex flex-col gap-2 xl:gap-4">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-2xl">Register</CardTitle>
-            <CardDescription>
-              Enter email and password to register a new account.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <RegisterForm />
-          </CardContent>
-        </Card>
-        <Button variant={"link"} asChild>
-          <Link href="/">Return to home</Link>
-        </Button>
+    <main className="grid flex-1 items-start gap-6 sm:py-0">
+      <div className="flex flex-row justify-between gap-6">
+        <Search placeholder="Cari presensi berdasarkan nama dosen..." />
       </div>
-    </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Presensi</CardTitle>
+          <CardDescription>Lihat data presensi dosen.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Suspense
+            key={search}
+            fallback={<TableSkeleton colSpan={5} />}
+          >
+          <PresensiTable response={presensiData} />
+          </Suspense>
+        </CardContent>
+      </Card>
+    </main>
   );
 };
 

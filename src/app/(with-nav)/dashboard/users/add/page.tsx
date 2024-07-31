@@ -1,5 +1,5 @@
 import React from "react";
-import AddFishForm from "@/components/fish/add-form";
+import AddFishForm from "@/components/users/add-form";
 import { Metadata } from "next";
 import SessionProvider from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";

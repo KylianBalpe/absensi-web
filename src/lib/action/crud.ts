@@ -1,39 +1,33 @@
 "use server";
 
-import {
-  AddFishRequest,
-  DeleteFishRequest,
-  FetchFishRequest,
-  GetFishDetailRequest,
-  UpdateFishRequest,
-} from "@/lib/definition/fish-type";
 import { revalidatePath } from "next/cache";
 
 const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-export const getAllFish = async (request: FetchFishRequest) => {
+export const getUsers = async (request: any) => {
   try {
     const res = await fetch(
-      `${backendURL}/library/fish/all?name=${request.search}&currentPage=${request.page}`,
+      `${backendURL}/users`,
       {
         method: "GET",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${request.accessToken}`,
         },
       },
     );
-
     return res.json();
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getFish = async (request: GetFishDetailRequest) => {
+export const getUser = async (request: any) => {
   try {
-    const res = await fetch(`${backendURL}/library/fish/${request.id}`, {
+    const res = await fetch(`${backendURL}/users/${request.id}`, {
       method: "GET",
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${request.accessToken}`,
       },
     });
@@ -44,9 +38,9 @@ export const getFish = async (request: GetFishDetailRequest) => {
   }
 };
 
-export const addFish = async (request: AddFishRequest, accessToken: string) => {
+export const addUser = async (request: any, accessToken: string) => {
   try {
-    const res = await fetch(`${backendURL}/library/fish`, {
+    const res = await fetch(`${backendURL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,34 +48,30 @@ export const addFish = async (request: AddFishRequest, accessToken: string) => {
       },
       body: JSON.stringify(request),
     });
-
     const response = await res.json();
-
-    revalidatePath("/dashboard/fish", "page");
+    revalidatePath("/dashboard/users", "page");
     return response;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const updateFish = async (
+export const updateUser = async (
   id: number,
-  request: UpdateFishRequest,
+  request: any,
   accessToken: string,
 ) => {
   try {
-    const res = await fetch(`${backendURL}/library/fish/edit/${id}`, {
-      method: "PUT",
+    const res = await fetch(`${backendURL}/users/${id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(request),
     });
-
     const response = await res.json();
-
-    revalidatePath("/dashboard/fish/[id]/edit", "page");
+    revalidatePath("/dashboard/users/[id]/edit", "page");
 
     return response;
   } catch (error) {
@@ -89,19 +79,36 @@ export const updateFish = async (
   }
 };
 
-export const deleteFish = async (request: DeleteFishRequest) => {
+export const deleteUser = async (request: any) => {
   try {
-    const res = await fetch(`${backendURL}/library/fish/${request.id}`, {
+    const res = await fetch(`${backendURL}/users/${request.id}`, {
       method: "DELETE",
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${request.accessToken}`,
       },
     });
-
     const response = await res.json();
-
-    revalidatePath("/dashboard/fish", "page");
+    revalidatePath("/dashboard/users", "page");
     return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPresensi = async (request: any) => {
+  try {
+    const res = await fetch(
+      request.search? `${backendURL}/presensi?name=${request.search}` : `${backendURL}/presensi`,
+      {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${request.accessToken}`,
+        },
+      },
+    );
+    return res.json();
   } catch (error) {
     console.error(error);
   }

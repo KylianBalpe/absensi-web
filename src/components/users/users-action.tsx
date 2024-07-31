@@ -22,17 +22,16 @@ import {
 } from "@/components/ui/dialog";
 import { EllipsisIcon, EyeIcon, PencilIcon, Trash2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
-// import { deleteFish } from "@/lib/action/fish";
 import { toast } from "sonner";
 import { LoadingSVG } from "@/components/iconSVG";
+import { deleteUser } from "@/lib/action/crud";
 
-const FishAction = ({ fishId }: { fishId: number }) => {
+const UsersAction = ({ userId }: { userId: number }) => {
   const { data: session } = useSession();
-
   const [open, setOpen] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
 
-  async function onDeleteFish(id: number) {
+  async function onDeleteusers(id: number) {
     toast("Deleting...", {
       icon: <LoadingSVG />,
       duration: Infinity,
@@ -40,24 +39,24 @@ const FishAction = ({ fishId }: { fishId: number }) => {
     });
     setIsDeleting(true);
     try {
-      //   const res = await deleteFish({
-      //     accessToken: session!.user.accessToken,
-      //     id: id,
-      //   });
+        const res = await deleteUser({
+          accessToken: session!.user.accessToken,
+          id: id,
+        });
 
-      //   if (res.code !== 200) {
-      //     toast.dismiss("delete-toast");
-      //     toast.error("Error", {
-      //       description: <p className="text-sm text-red-600">{res.message}</p>,
-      //       duration: 2000,
-      //     });
-      //     setIsDeleting(false);
-      //     return;
-      //   }
+        if (res.status !== 200) {
+          toast.dismiss("delete-toast");
+          toast.error("Error", {
+            description: <p className="text-sm text-red-600">{res.message}</p>,
+            duration: 2000,
+          });
+          setIsDeleting(false);
+          return;
+        }
 
       toast.dismiss("delete-toast");
       toast.success("Success", {
-        // description: <p className="text-green-700">{res.message}</p>,
+        description: <p className="text-green-700">{res.message}</p>,
         duration: 2000,
       });
       setOpen(false);
@@ -80,7 +79,7 @@ const FishAction = ({ fishId }: { fishId: number }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem asChild>
             <Link
-              href={`/dashboard/fish/${fishId}/detail`}
+              href={`/dashboard/users/${userId}`}
               className="flex cursor-pointer flex-row items-center"
             >
               <EyeIcon size={14} className="mr-2" />
@@ -89,7 +88,7 @@ const FishAction = ({ fishId }: { fishId: number }) => {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              href={`/dashboard/fish/${fishId}/edit`}
+              href={`/dashboard/users/${userId}/edit`}
               className="flex cursor-pointer flex-row items-center"
             >
               <PencilIcon size={14} className="mr-2" />
@@ -115,7 +114,7 @@ const FishAction = ({ fishId }: { fishId: number }) => {
         <DialogFooter>
           <Button
             variant="destructive"
-            onClick={() => onDeleteFish(fishId)}
+            onClick={() => onDeleteusers(userId)}
             disabled={isDeleting}
           >
             Delete
@@ -126,4 +125,4 @@ const FishAction = ({ fishId }: { fishId: number }) => {
   );
 };
 
-export default FishAction;
+export default UsersAction;
