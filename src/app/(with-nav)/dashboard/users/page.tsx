@@ -23,7 +23,8 @@ const Page = async () => {
   const usersData = await getUsers({
     accessToken: session!.user.accessToken,
   });
-  if (!usersData || usersData.status !== 200) return <InternalServerError />;
+  if (!usersData) return <InternalServerError />;
+  const users = usersData.status === 200 ? usersData?.data?.users : [];
 
   return (
     <main className="grid flex-1 items-start gap-6 sm:py-0">
@@ -37,7 +38,7 @@ const Page = async () => {
           <CardDescription>Manage your data.</CardDescription>
         </CardHeader>
         <CardContent>
-          <UsersTable response={usersData} />
+          <UsersTable users={users} />
         </CardContent>
       </Card>
     </main>

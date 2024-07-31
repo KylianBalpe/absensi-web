@@ -13,8 +13,8 @@ import { authOptions } from "@/lib/authOptions";
 import SessionProvider from "@/components/SessionProvider";
 import UsersAction from "./users-action";
 
-const UsersTable = async ({ response}: { response: any }) => {
-  const users = response.data.users
+const UsersTable = async ({ users }: { users: any }) => {
+  users = []
   const session = await getServerSession(authOptions);
   return (
     <div className="rounded-md border">
@@ -24,8 +24,12 @@ const UsersTable = async ({ response}: { response: any }) => {
             <TableHead>Alamat Email</TableHead>
             <TableHead>NIDN</TableHead>
             <TableHead>Nama Pengguna</TableHead>
-            <TableHead className="hidden md:table-cell">Jenis Kelamin</TableHead>
-            <TableHead className="hidden md:table-cell">Nomor Telepone</TableHead>
+            <TableHead className="hidden md:table-cell">
+              Jenis Kelamin
+            </TableHead>
+            <TableHead className="hidden md:table-cell">
+              Nomor Telepone
+            </TableHead>
             <TableHead className="hidden md:table-cell">Alamat</TableHead>
             <TableHead>
               <span className="sr-only">Actions</span>
@@ -33,14 +37,14 @@ const UsersTable = async ({ response}: { response: any }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users || users.length > 0 ? (
+          {users.length > 0 ? (
             users.map((user: any) => (
               <TableRow key={user.id}>
                 <TableCell className="font-medium">{user.email}</TableCell>
                 <TableCell className="font-medium">{user.nidn}</TableCell>
                 <TableCell className="font-medium">{user.name}</TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {user.jk === 'laki_laki' ? 'Laki-laki': 'Perempuan'}
+                  {user.jk === "laki_laki" ? "Laki-laki" : "Perempuan"}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
                   {user.phone}
