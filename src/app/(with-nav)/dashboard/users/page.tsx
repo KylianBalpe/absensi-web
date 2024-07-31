@@ -12,7 +12,6 @@ import { Metadata } from "next";
 import { getUsers } from "@/lib/action/crud";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { FetchFishResponse } from "@/lib/definition/fish-type";
 
 export const metadata: Metadata = {
   title: "Users",
