@@ -52,6 +52,7 @@ const Page = async () => {
             title="Dosen Tidak Hadir"
             absensiData={dosenTidakHadir}
             message="Semua dosen sudah hadir hari ini"
+            isAlpha={true}
           />
         </div>
       </div>

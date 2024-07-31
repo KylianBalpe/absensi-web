@@ -15,10 +15,12 @@ export default function TableKehadiran({
   absensiData,
   title,
   message = "Data tidak ada",
+  isAlpha = false,
 }: {
   absensiData: any;
   title: string;
   message?: string;
+  isAlpha?: boolean;
 }) {
   return (
     <Card className="h-min">
@@ -32,7 +34,13 @@ export default function TableKehadiran({
               <TableHeader>
                 <TableRow>
                   <TableHead>Nama</TableHead>
-                  {absensiData.length > 0 ? <TableHead>Waktu</TableHead> : ""}
+                  {isAlpha ? (
+                    ""
+                  ) : absensiData.length > 0 ? (
+                    <TableHead>Waktu</TableHead>
+                  ) : (
+                    ""
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
