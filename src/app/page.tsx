@@ -46,11 +46,12 @@ const Page = async () => {
           Universitas Muhammadiyah Sumatera Utara
         </p>
         <div className="grid grid-cols-1 gap-6 py-12 lg:grid-cols-3">
-          <TableKehadiran title="Dosen Hadir" absensiData={dosenHadir} />
-          <TableKehadiran title="Dosen Pulang" absensiData={dosenPulang} />
+          <TableKehadiran title="Dosen Hadir" absensiData={dosenHadir} message="Belum ada dosen yang hadir hari ini"/>
+          <TableKehadiran title="Dosen Pulang" absensiData={dosenPulang} message="Belum ada dosen yang pulang hari ini"/>
           <TableKehadiran
             title="Dosen Tidak Hadir"
             absensiData={dosenTidakHadir}
+            message="Semua dosen sudah hadir hari ini"
           />
         </div>
       </div>
