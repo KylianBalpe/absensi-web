@@ -10,6 +10,7 @@ import { authOptions } from "@/lib/authOptions";
 import Link from "next/link";
 import DataNotFound from "@/components/DataNotFound";
 import InternalServerError from "@/app/500";
+import NotFound from "@/app/not-found";
 
 export const metadata: Metadata = {
   title: "Users Detail",
@@ -22,10 +23,10 @@ const Page = async ({ params }: { params: { id: string } }) => {
     accessToken: session!.user.accessToken,
     id: userId,
   });
-  
   const response = await fetchUser?.json();
-  if (!response || response.status !== 200) return <InternalServerError />;
-  const user: any = response.data?.user;
+  if (!response) return <InternalServerError />;
+  const user: any = response?.data?.user || null;
+  if (!user) return <NotFound />;
 
   return (
     <>

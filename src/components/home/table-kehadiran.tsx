@@ -14,11 +14,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function TableKehadiran({
   absensiData,
   title,
+  message = "Data tidak ada",
 }: {
   absensiData: any;
   title: string;
+  message?: string;
 }) {
-  const data = absensiData;
   return (
     <Card className="h-min">
       <CardHeader>
@@ -26,27 +27,37 @@ export default function TableKehadiran({
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nama</TableHead>
-              {data[0].time !== null ? <TableHead>Waktu</TableHead> : ""}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((item: any) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                {item.time !== null ? (
-                  <TableCell>
-                    {` ${String(new Date(item.time).getUTCHours()).padStart(2, "0")}:${String(new Date(item.time).getUTCMinutes()).padStart(2, "0")}:${String(new Date(item.time).getUTCSeconds()).padStart(2, "0")}`}{" "}
-                    WIB
-                  </TableCell>
-                ) : (
-                  ""
-                )}
+          {absensiData.length > 0 ? (
+            <>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Nama</TableHead>
+                  {absensiData.length > 0 ? <TableHead>Waktu</TableHead> : ""}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {absensiData.map((item: any) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.name}</TableCell>
+                    {item.time !== null ? (
+                      <TableCell>
+                        {` ${String(new Date(item.time).getUTCHours()).padStart(2, "0")}:${String(new Date(item.time).getUTCMinutes()).padStart(2, "0")}:${String(new Date(item.time).getUTCSeconds()).padStart(2, "0")}`}{" "}
+                        WIB
+                      </TableCell>
+                    ) : (
+                      ""
+                    )}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </>
+          ) : (
+            <TableHeader>
+              <TableRow>
+                <TableHead>{message}</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
+            </TableHeader>
+          )}
         </Table>
       </CardContent>
     </Card>

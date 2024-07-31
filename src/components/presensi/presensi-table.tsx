@@ -10,8 +10,7 @@ import {
 
 const daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
-const PresensiTable = async ({ response }: { response: any }) => {
-  const presensi = response.data.presensi;
+const PresensiTable = async ({ presensi }: { presensi: any[] }) => {
   return (
     <div className="rounded-md border">
       <Table>
@@ -23,7 +22,7 @@ const PresensiTable = async ({ response }: { response: any }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {presensi || presensi.length > 0 ? (
+          {presensi.length > 0 ? (
             presensi.map((data: any) => (
               <TableRow key={data.id}>
                 <TableCell className="font-medium">{data.name}</TableCell>

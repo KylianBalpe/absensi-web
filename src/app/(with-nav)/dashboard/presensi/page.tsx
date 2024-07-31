@@ -31,8 +31,9 @@ const Page = async ({
   const presensiData = await getPresensi({
     accessToken: session!.user.accessToken,
     search,
-  });
-  if (!presensiData || presensiData.status !== 200)return <InternalServerError />;
+  }) || [];
+  if (!presensiData) return <InternalServerError />;
+  const presensi = presensiData.status === 200 ? presensiData.data.presensi : []
 
   return (
     <main className="grid flex-1 items-start gap-6 sm:py-0">
@@ -46,7 +47,7 @@ const Page = async ({
         </CardHeader>
         <CardContent>
           <Suspense key={search} fallback={<TableSkeleton colSpan={5} />}>
-            <PresensiTable response={presensiData} />
+            <PresensiTable presensi={presensi} />
           </Suspense>
         </CardContent>
       </Card>
