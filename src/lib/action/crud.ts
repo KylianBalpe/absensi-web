@@ -6,16 +6,13 @@ const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const getUsers = async (request: any) => {
   try {
-    const res = await fetch(
-      `${backendURL}/users`,
-      {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${request.accessToken}`,
-        },
+    const res = await fetch(`${backendURL}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${request.accessToken}`,
       },
-    );
+    });
     return res.json();
   } catch (error) {
     console.error(error);
@@ -27,7 +24,7 @@ export const getUser = async (request: any) => {
     const res = await fetch(`${backendURL}/users/${request.id}`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${request.accessToken}`,
       },
     });
@@ -84,7 +81,7 @@ export const deleteUser = async (request: any) => {
     const res = await fetch(`${backendURL}/users/${request.id}`, {
       method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${request.accessToken}`,
       },
     });
@@ -99,16 +96,35 @@ export const deleteUser = async (request: any) => {
 export const getPresensi = async (request: any) => {
   try {
     const res = await fetch(
-      request.search? `${backendURL}/presensi?name=${request.search}` : `${backendURL}/presensi`,
+      request.search
+        ? `${backendURL}/presensi?name=${request.search}`
+        : `${backendURL}/presensi`,
       {
         method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${request.accessToken}`,
         },
       },
     );
     return res.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAbsensi = async () => {
+  try {
+    const res = await fetch(`${backendURL}/dosen`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const response = await res.json();
+
+    return response;
   } catch (error) {
     console.error(error);
   }

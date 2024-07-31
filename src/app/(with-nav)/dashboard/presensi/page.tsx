@@ -16,7 +16,7 @@ import Search from "@/components/ui/search";
 import TableSkeleton from "@/components/skeleton/table-skeleton";
 
 export const metadata: Metadata = {
-  title: "Users",
+  title: "Presensi",
 };
 
 const Page = async ({
@@ -29,7 +29,7 @@ const Page = async ({
   const session = await getServerSession(authOptions);
   const search = searchParams?.search || "";
 
-  const presensiData: FetchFishResponse = await getPresensi({
+  const presensiData = await getPresensi({
     accessToken: session!.user.accessToken,
     search,
   });
@@ -45,11 +45,8 @@ const Page = async ({
           <CardDescription>Lihat data presensi dosen.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Suspense
-            key={search}
-            fallback={<TableSkeleton colSpan={5} />}
-          >
-          <PresensiTable response={presensiData} />
+          <Suspense key={search} fallback={<TableSkeleton colSpan={5} />}>
+            <PresensiTable response={presensiData} />
           </Suspense>
         </CardContent>
       </Card>

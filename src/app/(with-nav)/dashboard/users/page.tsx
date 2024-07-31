@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  const usersData: FetchFishResponse = await getUsers({
+  const usersData = await getUsers({
     accessToken: session!.user.accessToken,
   });
 

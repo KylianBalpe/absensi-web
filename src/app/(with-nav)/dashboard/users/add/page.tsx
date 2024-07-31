@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
 export const metadata: Metadata = {
-  title: "Add Fish",
+  title: "Add Users",
 };
 
 const Page = async () => {

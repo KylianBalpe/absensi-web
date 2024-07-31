@@ -12,12 +12,13 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import RegisterForm from "@/components/auth/register-form";
+import { authOptions } from "@/lib/authOptions";
 
 const Page = async () => {
-    const session = await getServerSession();
-    if (session) {
-      redirect("/dashboard");
-    }
+  const session = await getServerSession(authOptions);
+  if (session) {
+    redirect("/dashboard");
+  }
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center gap-4 px-4 py-8 md:gap-8 lg:py-24 xl:gap-12">

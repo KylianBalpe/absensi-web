@@ -8,12 +8,7 @@ import Link from "next/link";
 import { AddUserSchema } from "@/lib/form/users-form";
 import { ChevronLeftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -42,7 +37,7 @@ const AddFishForm = () => {
 
   const router = useRouter();
   const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = React.useState<string>('laki_laki');
+  const [selectedValue, setSelectedValue] = React.useState<string>("laki_laki");
 
   const form = useForm<z.infer<typeof AddUserSchema>>({
     resolver: zodResolver(AddUserSchema),
@@ -83,7 +78,9 @@ const AddFishForm = () => {
         if (response.status !== 200) {
           toast.dismiss("submit-toast");
           toast.error("Error", {
-            description: <p className="text-sm text-red-600">{response.message}</p>,
+            description: (
+              <p className="text-sm text-red-600">{response.message}</p>
+            ),
             duration: 2000,
           });
           setIsSubmit(false);
@@ -92,7 +89,9 @@ const AddFishForm = () => {
 
         toast.dismiss("submit-toast");
         toast.success("Success", {
-          description: <p className="text-sm text-green-700">{response.message}</p>,
+          description: (
+            <p className="text-sm text-green-700">{response.message}</p>
+          ),
           duration: 2000,
         });
 
@@ -112,7 +111,7 @@ const AddFishForm = () => {
         <main className="grid flex-1 items-start gap-6 sm:py-0">
           <div className="flex flex-wrap items-center gap-6">
             <Button variant="outline" size="icon" className="h-7 w-7" asChild>
-              <Link href="/dashboard/fish">
+              <Link href="/dashboard/users">
                 <ChevronLeftIcon className="h-4 w-4" />
                 <span className="sr-only">Back</span>
               </Link>
@@ -303,7 +302,7 @@ const AddFishForm = () => {
                     </div>
                   </div>
                 </CardContent>
-                </Card>
+              </Card>
             </div>
           </div>
         </main>
