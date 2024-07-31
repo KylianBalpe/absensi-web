@@ -38,7 +38,7 @@ const Page = async () => {
           <Image src="/umsu.png" alt="UMSU" width={150} height={150} />
         </div>
         <h1 className="text-center text-3xl font-bold uppercase tracking-tighter sm:text-5xl xl:text-6xl/none">
-          Absensi Dosen Fikti
+          Absensi Dosen FIKTI
         </h1>
         <p className="text-md text-center font-bold tracking-tighter sm:text-xl xl:text-2xl/none">
           Universitas Muhammadiyah Sumatera Utara
