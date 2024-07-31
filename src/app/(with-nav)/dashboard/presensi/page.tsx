@@ -11,7 +11,6 @@ import { Metadata } from "next";
 import { getPresensi } from "@/lib/action/crud";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { FetchFishResponse } from "@/lib/definition/fish-type";
 import Search from "@/components/ui/search";
 import TableSkeleton from "@/components/skeleton/table-skeleton";
 

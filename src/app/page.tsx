@@ -1,26 +1,43 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { LogInIcon } from "lucide-react";
 import { authOptions } from "@/lib/authOptions";
 import { getAbsensi } from "@/lib/action/crud";
+import Clock from "@/components/Clock";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-
   const absensiData = await getAbsensi();
-  const dosenHadir = absensiData.data.dosenHadir;
-  const dosenPulang = absensiData.data.dosenPulang;
-  const dosenTidakHadir = absensiData.data.dosenTidakHadir;
+  const { dosenHadir, dosenPulang,dosenTidakHadir} = absensiData.data;
 
   return (
     <div className="flex w-full flex-col items-center justify-center py-8 lg:h-screen">
-      <div className="container h-full w-full space-y-8 px-4 md:px-6">
+      <div className="container h-full w-full space-y-4 px-4 md:px-6">
+        <div className="flex justify-between">
+          <Clock />
+          <div className="flex flex-col items-end">
+            {!!session && (
+              <Button className="max-w-min" asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
+            )}
+            {!session && (
+              <Button className="max-w-min" asChild>
+                <Link href="/login">
+                  <LogInIcon className="mr-2" size={16} /> Login
+                </Link>
+              </Button>
+            )}
+          </div>
+        </div>
         <h1 className="text-center text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-          Absensi
+          Absensi Dosen Fikti
         </h1>
+        <p className="text-md text-center font-bold tracking-tighter sm:text-lg xl:text-xl/none">
+          Universitas Muhammadiyah Sumatera Utara
+        </p>
         <div className="grid h-full grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="flex flex-col space-y-4">
             <div className="space-y-2">
@@ -79,20 +96,6 @@ const Page = async () => {
                 </ul>
               </div>
             </div>
-          </div>
-          <div className="flex flex-col items-end">
-            {!!session && (
-              <Button className="max-w-min" asChild>
-                <Link href="/dashboard">Dashboard</Link>
-              </Button>
-            )}
-            {!session && (
-              <Button className="max-w-min" asChild>
-                <Link href="/login">
-                  <LogInIcon className="mr-2" size={16} /> Login
-                </Link>
-              </Button>
-            )}
           </div>
         </div>
       </div>

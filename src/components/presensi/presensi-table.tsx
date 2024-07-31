@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Table,
   TableBody,
@@ -8,21 +7,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
 
 const daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
 const PresensiTable = async ({ response }: { response: any }) => {
-  const session = await getServerSession(authOptions);
   const presensi = response.data.presensi;
-
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID Presensi</TableHead>
             <TableHead>Nama Dosen</TableHead>
             <TableHead>Kategori</TableHead>
             <TableHead>Waktu</TableHead>
@@ -32,7 +26,6 @@ const PresensiTable = async ({ response }: { response: any }) => {
           {presensi || presensi.length > 0 ? (
             presensi.map((data: any) => (
               <TableRow key={data.id}>
-                <TableCell className="font-medium">{data.id}</TableCell>
                 <TableCell className="font-medium">{data.name}</TableCell>
                 <TableCell className="font-medium">{data.status}</TableCell>
                 <TableCell className="font-medium">
