@@ -14,7 +14,6 @@ import SessionProvider from "@/components/SessionProvider";
 import UsersAction from "./users-action";
 
 const UsersTable = async ({ users }: { users: any }) => {
-  users = []
   const session = await getServerSession(authOptions);
   return (
     <div className="rounded-md border">
